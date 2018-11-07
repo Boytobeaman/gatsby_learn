@@ -1,60 +1,48 @@
-import React from "react"
-import { graphql } from "gatsby"
-import { css } from "react-emotion"
-import { rhythm } from "../utils/typography"
-import Layout from "../components/layout"
+import React from 'react'
+import Link from 'gatsby-link'
+import Layout from "../components/layouts"
+import Img from 'gatsby-image'
 
-export default ({ data }) => {
-  console.log(data)
-  return (
-    <Layout>
-      <div>
-        <h1
-          className={css`
-            display: inline-block;
-            border-bottom: 1px solid;
-          `}
-        >
-          Amazing Pandas Eating Things
-        </h1>
-        <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
-        {data.allMarkdownRemark.edges.map(({ node }) => (
-          <div key={node.id}>
-            <h3
-              className={css`
-                margin-bottom: ${rhythm(1 / 4)};
-              `}
-            >
-              {node.frontmatter.title}{" "}
-              <span
-                className={css`
-                  color: #bbb;
-                `}
-              >
-                — {node.frontmatter.date}
-              </span>
-            </h3>
-            <p>{node.excerpt}</p>
-          </div>
+const IndexPage = ({ data }) => (
+  <Layout>
+    <div>
+      <h1>Hi people</h1>
+      <p>Welcome to your new Gatsby site.</p>
+      <p>Now go build something great.</p>
+      <ul>
+        {data.allStrapiArticle.edges.map(document => (
+          <li key={document.node.id}>
+            <h2>
+              <Link to={`/${document.node.id}`}>{document.node.title}</Link>
+            </h2>
+            <Img fixed={document.node.cover_image.childImageSharp.fixed}/>
+
+            <p>{document.node.content}</p>
+          </li>
         ))}
-      </div>
-    </Layout>
-  )
-}
+      </ul>
+      <Link to="/page-2/">Go to page 2</Link>
+    </div>
+  </Layout>
+)
 
+export default IndexPage
 
-export const query = graphql`
-  query {
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      totalCount
+export const pageQuery = graphql`
+  query IndexQuery {
+    allStrapiArticle {
       edges {
         node {
           id
-          frontmatter {
-            title
-            date(formatString: "DD MMMM, YYYY")
+          cover_image {
+            childImageSharp {
+              fixed(width: 200, height: 125) {
+                ...GatsbyImageSharpFixed
+              }
+            }
           }
-          excerpt
+          title
+          content
         }
       }
     }
