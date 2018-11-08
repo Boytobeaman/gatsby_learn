@@ -22,6 +22,14 @@ const IndexPage = ({ data }) => (
         ))}
       </ul>
       <Link to="/page-2/">Go to page 2</Link>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-sm-6">col-sm-6</div>
+          <div className="col-sm-6">col-sm-6</div>
+          <div className="col-sm-6">col-sm-6</div>
+          <div className="col-sm-6">col-sm-6</div>
+        </div>
+      </div>
     </div>
   </Layout>
 )
